@@ -1,4 +1,4 @@
 from pyfirmata import Arduino, util
 import time
-board = Arduino("/dev/ttyUSB00")
-board.digital[13].write(1)
+board = Arduino("/dev/ttyACM1")
+board.digital[3].write(1)
