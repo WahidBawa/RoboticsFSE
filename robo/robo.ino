@@ -1,8 +1,8 @@
 #include <Servo.h>
 Servo servo;
 void setup() {
-  servo.attach(3);
+  servo.attach(9);
 }
 void loop() {
-  servo.write(90);       
+  servo.write(10+80);
 }
