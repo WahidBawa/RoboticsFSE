@@ -24,7 +24,6 @@ cv2.createTrackbar('v2', 'result', 0, 255, nothing)
 
 while(True):
     _, frame = cap.read()
-
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
     h = cv2.getTrackbarPos('h', 'result')
