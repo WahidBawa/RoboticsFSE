@@ -1,14 +1,15 @@
 from pygame import *
-import pygame
+clock = time.Clock()
+import pygame, serial, time
 
 screen = display.set_mode([500, 700])
 
 init()
 joystick.init()
 
-clock = time.Clock()
 
 running = True
+waited = False;
 while running:
 	for evt in event.get():
 		if evt.type == QUIT:
@@ -31,6 +32,16 @@ while running:
 	left_analog_y = joystick.get_axis(1)
 	right_analog_x = joystick.get_axis(3)
 	right_analog_y = joystick.get_axis(4)
+
+	arduinoData = serial.Serial("/dev/ttyACM1", 9600, timeout = 5)
+	if not waited:
+		time.sleep(2)
+		# print("owo")
+		waited = True
+		arduinoData.write(str.encode("owo"))
+	print(arduinoData.readline())
+
+
 
 	clock.tick(20)
 
