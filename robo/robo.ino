@@ -1,22 +1,35 @@
 #include <Servo.h>
-Servo servo;
-int xVal;
+Servo FR;
 char SerialData;
 String str = "";
+
+int FR_pin = 3;
+
+
+int counter = 0;
 void setup() {
-  servo.attach(3);
-  servo.write(90);
+  FR.attach(FR_pin);
+  
   Serial.begin(9600);
 }
 void loop() {
-//  xVal = map(analogRead(x), 0, 1024, 40, 140);
-//  Serial.println(xVal);
-  while (!Serial.available()) {} // wait for data to arrive
+  while (!Serial.available()) {} // wait for data to arrive 
   while (Serial.available()){
-    char SerialData = Serial.read();
-    str += SerialData;
+    if (Serial.available() > 0){
+      char SerialData = Serial.read();
+      str += SerialData;
+      counter++;
+      if (counter % 3 == 0){
+        Serial.println(str);
+        str = "";
+      }
+    }
   }
-  Serial.println(str);
+//  Serial.println(str);
 //  str = "";
-  servo.write(90);
+
+
+  
+  
+  FR.write(90);
 }

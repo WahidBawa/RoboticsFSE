@@ -10,6 +10,7 @@ joystick.init()
 
 running = True
 waited = False;
+arduinoData = serial.Serial("/dev/ttyACM1", 9600, timeout = 5)
 while running:
 	for evt in event.get():
 		if evt.type == QUIT:
@@ -33,13 +34,15 @@ while running:
 	right_analog_x = joystick.get_axis(3)
 	right_analog_y = joystick.get_axis(4)
 
-	arduinoData = serial.Serial("/dev/ttyACM1", 9600, timeout = 5)
+	# if trying to get input from serial:
+		# if arduinoData.inWaiting()
+
 	if not waited:
-		time.sleep(2)
-		# print("owo")
+		time.sleep(1)
 		waited = True
 		arduinoData.write(str.encode("owo"))
-	print(arduinoData.readline())
+	if arduinoData.inWaiting():
+		print(arduinoData.readline())
 
 
 
