@@ -1,6 +1,6 @@
 #include <Servo.h>
 int FL_pin = 6;
-Servo FL
+Servo FL;
 
 int BL_pin = 5;
 Servo BL;
@@ -21,9 +21,9 @@ void setup() {
 }
 
 void loop() {
-  FL.write(90); // 90< for forward, 90> for backwards
-  BL.write(90); // 90< for forward, 90> for backwards
+  FL.write(80); // 90< for forward, 90> for backwards
+  BL.write(80); // 90< for forward, 90> for backwards
   
-  FR.write(90); // 90> for forward, 90< for backwards
-  BR.write(90); // 90> for forward, 90< for backwards
+  FR.write(100); // 90> for forward, 90< for backwards
+  BR.write(100); // 90> for forward, 90< for backwards
 }
