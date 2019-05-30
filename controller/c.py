@@ -29,10 +29,10 @@ while running:
 	triangle_button = joystick.get_button(2)
 	square_button = joystick.get_button(3)
 
-	left_analog_x = joystick.get_axis(0)
-	left_analog_y = -1 if y >= 3 else 1 joystick.get_axis(1) * 100
-	right_analog_x = joystick.get_axis(3)
-	right_analog_y = joystick.get_axis(4)
+	left_analog_x = joystick.get_axis(0) * 100
+	left_analog_y = joystick.get_axis(1) * 100
+	right_analog_x = joystick.get_axis(3) * 100
+	right_analog_y = joystick.get_axis(4) * 100
 
 	# if trying to get input from serial:
 		# if arduinoData.inWaiting()
