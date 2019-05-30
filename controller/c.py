@@ -2,6 +2,34 @@ from pygame import *
 clock = time.Clock()
 import pygame, serial, time
 
+###################################################################### this is all firmata stuff
+import pyfirmata
+from pyfirmata import Arduino, util
+waited = False
+board = Arduino("/dev/ttyACM0")
+
+
+iterator = util.Iterator(board)
+iterator.start();
+
+val = board.get_pin("a:0:i")
+
+FL = 6
+BL = 5
+FR = 4
+BR = 3
+
+board.digital[FL].mode = pyfirmata.SERVO
+board.digital[BL].mode = pyfirmata.SERVO
+board.digital[FR].mode = pyfirmata.SERVO
+board.digital[BR].mode = pyfirmata.SERVO
+
+board.digital[FL].write(90)
+board.digital[BL].write(90)
+board.digital[FR].write(90)
+board.digital[BR].write(90)
+######################################################################
+
 screen = display.set_mode([500, 700])
 
 init()
@@ -29,27 +57,20 @@ while running:
 	triangle_button = joystick.get_button(2)
 	square_button = joystick.get_button(3)
 
-	left_analog_x = joystick.get_axis(0) * 100
-	left_analog_y = joystick.get_axis(1) * 100
-	right_analog_x = joystick.get_axis(3) * 100
-	right_analog_y = joystick.get_axis(4) * 100
+	left_analog_x = joystick.get_axis(0) * 90
+	left_analog_y = joystick.get_axis(1) * 90
+	right_analog_x = joystick.get_axis(3) * 90
+	right_analog_y = joystick.get_axis(4) * 90
 
-	# if trying to get input from serial:
-		# if arduinoData.inWaiting()
-
-	if not waited: # this is going to wait for initialization
-		time.sleep(1)
-		waited = True
+	time.sleep(.01)
 	
-	if arduinoData.inWaiting(): # reads in the input from arduino
-		print("ARDUINO:", str(arduinoData.readline()), "PYTHON:", left_analog_y)
-		# print()
-	else: # writes to the arduino
-		# arduinoData.write(str.encode(str(round(left_analog_y, 2))))
-		for i in str(left_analog_y):
-			arduinoData.write(str.encode(i))
-	# print(left_analog_y)
+	print(left_analog_y)
 
+	board.digital[BR].write(90 + left_analog_y * -1)
+	board.digital[FR].write(90 + left_analog_y * -1)
+
+	board.digital[BL].write(90 + left_analog_y)
+	board.digital[FL].write(90 + left_analog_y)
 
 	clock.tick(100)
 
