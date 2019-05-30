@@ -6,7 +6,7 @@ import pygame, serial, time
 import pyfirmata
 from pyfirmata import Arduino, util
 waited = False
-board = Arduino("/dev/ttyACM0")
+board = Arduino("/dev/ttyACM2")
 
 
 iterator = util.Iterator(board)
@@ -37,8 +37,6 @@ joystick.init()
 
 
 running = True
-waited = False;
-arduinoData = serial.Serial("/dev/ttyACM1", 9600, timeout = 5)
 while running:
 	for evt in event.get():
 		if evt.type == QUIT:
@@ -57,20 +55,41 @@ while running:
 	triangle_button = joystick.get_button(2)
 	square_button = joystick.get_button(3)
 
-	left_analog_x = joystick.get_axis(0) * 90
+	left_analog_x = joystick.get_axis(0) * -90
 	left_analog_y = joystick.get_axis(1) * 90
 	right_analog_x = joystick.get_axis(3) * 90
 	right_analog_y = joystick.get_axis(4) * 90
 
 	time.sleep(.01)
 	
-	print(left_analog_y)
+	print("X:", left_analog_x, "Y:",left_analog_y)
 
-	board.digital[BR].write(90 + left_analog_y * -1)
-	board.digital[FR].write(90 + left_analog_y * -1)
+	# if abs(left_analog_y - left_analog_x < 10):
+	rightSpeed = 90 + (left_analog_y * -1) - left_analog_x
+	leftSpeed = 90 + left_analog_y  - left_analog_x
+	
+	if rightSpeed < 0:
+		rightSpeed = 0
+	elif rightSpeed > 180:
+		rightSpeed = 180
 
-	board.digital[BL].write(90 + left_analog_y)
-	board.digital[FL].write(90 + left_analog_y)
+	if leftSpeed < 0:
+		leftSpeed = 0
+	elif leftSpeed > 180:
+		leftSpeed = 180
+			
+	board.digital[BR].write(rightSpeed)
+	board.digital[FR].write(rightSpeed)
+
+	board.digital[BL].write(leftSpeed)
+	board.digital[FL].write(leftSpeed)
+
+	# board.digital[BR].write(90 + left_analog_x * -1)
+	# board.digital[FR].write(90 + left_analog_x * -1)
+
+	# board.digital[BL].write(90 + left_analog_x * -1)
+	# board.digital[FL].write(90 + left_analog_x * -1)
+
 
 	clock.tick(100)
 
