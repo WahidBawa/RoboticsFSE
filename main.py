@@ -5,14 +5,10 @@ import pygame, serial, time
 ###################################################################### this is all firmata stuff
 import pyfirmata
 from pyfirmata import Arduino, util
-waited = False
 board = Arduino("/dev/ttyACM0")
-
 
 iterator = util.Iterator(board)
 iterator.start();
-
-val = board.get_pin("a:0:i")
 
 FL = 6
 BL = 5
@@ -42,11 +38,6 @@ while running:
 		if evt.type == QUIT:
 			running = False
 
-		if evt.type == JOYBUTTONDOWN:
-			print("Joystick button pressed.")
-		if evt.type == JOYBUTTONUP:
-			print("Joystick button released.")
-
 	joystick = pygame.joystick.Joystick(0)
 	joystick.init()
 
@@ -64,7 +55,6 @@ while running:
 	
 	print("X:", right_analog_x, "Y:",left_analog_y)
 
-	# if abs(left_analog_y - right_analog_x < 10):
 	rightSpeed = 90 + (left_analog_y * -1) - right_analog_x
 	leftSpeed = 90 + left_analog_y  - right_analog_x
 	
@@ -86,5 +76,4 @@ while running:
 	board.digital[FL].write(leftSpeed)
 
 	clock.tick(100)
-
 quit()
