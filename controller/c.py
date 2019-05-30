@@ -30,7 +30,7 @@ while running:
 	square_button = joystick.get_button(3)
 
 	left_analog_x = joystick.get_axis(0)
-	left_analog_y = joystick.get_axis(1)
+	left_analog_y = -1 if y >= 3 else 1 joystick.get_axis(1) * 100
 	right_analog_x = joystick.get_axis(3)
 	right_analog_y = joystick.get_axis(4)
 
@@ -42,13 +42,15 @@ while running:
 		waited = True
 	
 	if arduinoData.inWaiting(): # reads in the input from arduino
-		print("ARDUINO:", str(arduinoData.readline())[2], "PYTHON:", left_analog_y)
+		print("ARDUINO:", str(arduinoData.readline()), "PYTHON:", left_analog_y)
 		# print()
 	else: # writes to the arduino
-		arduinoData.write(str.encode(str(round(left_analog_y, 2))))
+		# arduinoData.write(str.encode(str(round(left_analog_y, 2))))
+		for i in str(left_analog_y):
+			arduinoData.write(str.encode(i))
 	# print(left_analog_y)
 
 
-	clock.tick(20)
+	clock.tick(100)
 
 quit()
