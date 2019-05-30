@@ -37,13 +37,16 @@ while running:
 	# if trying to get input from serial:
 		# if arduinoData.inWaiting()
 
-	if not waited:
+	if not waited: # this is going to wait for initialization
 		time.sleep(1)
 		waited = True
-		arduinoData.write(str.encode("owo"))
-	if arduinoData.inWaiting():
-		print(arduinoData.readline())
-
+	
+	if arduinoData.inWaiting(): # reads in the input from arduino
+		print("ARDUINO:", str(arduinoData.readline())[2], "PYTHON:", left_analog_y)
+		# print()
+	else: # writes to the arduino
+		arduinoData.write(str.encode(str(round(left_analog_y, 2))))
+	# print(left_analog_y)
 
 
 	clock.tick(20)

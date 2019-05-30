@@ -20,7 +20,7 @@ void loop() {
       str += SerialData;
       counter++;
       if (counter % 3 == 0){
-        Serial.println(str);
+        Serial.println(str.toInt());
         str = "";
       }
     }
