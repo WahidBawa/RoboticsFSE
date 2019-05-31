@@ -5,15 +5,15 @@ import pygame, serial, time
 ###################################################################### this is all firmata stuff
 import pyfirmata
 from pyfirmata import Arduino, util
-board = Arduino("/dev/ttyACM0")
+board = Arduino("/dev/ttyACM1")
 
 iterator = util.Iterator(board)
 iterator.start();
 
-FL = 6
-BL = 5
-FR = 4
-BR = 3
+FL = 4
+BL = 3
+FR = 6
+BR = 5
 
 board.digital[FL].mode = pyfirmata.SERVO
 board.digital[BL].mode = pyfirmata.SERVO
@@ -53,10 +53,10 @@ while running:
 
 	time.sleep(.001)
 	
-	print("X:", right_analog_x, "Y:",left_analog_y)
+	print("X:", left_analog_x, "Y:",left_analog_y)
 
-	rightSpeed = 90 + (left_analog_y * -1) - right_analog_x
-	leftSpeed = 90 + left_analog_y  - right_analog_x
+	rightSpeed = 90 + (left_analog_y * -1) - left_analog_x
+	leftSpeed = 90 + left_analog_y  - left_analog_x
 	
 	if rightSpeed < 0:
 		rightSpeed = 0

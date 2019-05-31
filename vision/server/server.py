@@ -7,7 +7,7 @@ import struct ## new
 import zlib
 
 HOST=''
-PORT=8485
+PORT=9000
 
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 print('Socket created')
@@ -38,6 +38,15 @@ while True:
     data = data[msg_size:]
 
     frame=pickle.loads(frame_data, fix_imports=True, encoding="bytes")
+
+
+    ######### USE FOR VISION #########
+
+
+
     frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
     cv2.imshow('ImageWindow',frame)
-    cv2.waitKey(1)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+quit()
