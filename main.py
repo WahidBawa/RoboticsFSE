@@ -15,15 +15,24 @@ BL = 3
 FR = 6
 BR = 5
 
+leftSuck = 7
+rightSuck = 8
+
 board.digital[FL].mode = pyfirmata.SERVO
 board.digital[BL].mode = pyfirmata.SERVO
 board.digital[FR].mode = pyfirmata.SERVO
 board.digital[BR].mode = pyfirmata.SERVO
 
+board.digital[leftSuck].mode = pyfirmata.SERVO
+board.digital[rightSuck].mode = pyfirmata.SERVO
+
 board.digital[FL].write(90)
 board.digital[BL].write(90)
 board.digital[FR].write(90)
 board.digital[BR].write(90)
+
+board.digital[leftSuck].write(90)
+board.digital[rightSuck].write(90)
 ######################################################################
 
 screen = display.set_mode([500, 700])
@@ -53,11 +62,11 @@ while running:
 
 	time.sleep(.001)
 	
-	print("X:", left_analog_x, "Y:",left_analog_y)
+	print("LX:", left_analog_x, "LY:",left_analog_y, "RX:", right_analog_x, "RY:", right_analog_y, "\n")
 
 	rightSpeed = 90 + (left_analog_y * -1) - left_analog_x
 	leftSpeed = 90 + left_analog_y  - left_analog_x
-	
+
 	if rightSpeed < 0:
 		rightSpeed = 0
 	elif rightSpeed > 180:
@@ -74,6 +83,9 @@ while running:
 
 	board.digital[BL].write(leftSpeed)
 	board.digital[FL].write(leftSpeed)
+
+	board.digital[leftSuck].write(90 + right_analog_y * -1)
+	board.digital[rightSuck].write(90 + right_analog_y)
 
 	clock.tick(100)
 quit()
