@@ -2,9 +2,7 @@ from pygame import *
 clock = time.Clock()
 import pygame, serial, time
 
-import os
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 ###################################################################### this is all firmata stuff
 import pyfirmata
@@ -19,8 +17,8 @@ BL = 3
 FR = 6
 BR = 5
   
-leftSuck = 8
-rightSuck = 7
+leftSuck = 7
+rightSuck = 8
 
 board.digital[FL].mode = pyfirmata.SERVO
 board.digital[BL].mode = pyfirmata.SERVO
@@ -69,12 +67,12 @@ while running:
 
 		left_analog_x = joystick.get_axis(0) * -90
 		left_analog_y = joystick.get_axis(1) * 90
-		right_analog_x = joystick.get_axis(2) * -90
-		right_analog_y = joystick.get_axis(5) * 90
+		right_analog_x = joystick.get_axis(3) * -90
+		right_analog_y = joystick.get_axis(4) * 90
 
 		time.sleep(.001)
 		
-		print("LX:", round(left_analog_x, 2), "LY:", round(left_analog_y, 2), "RX:", round(right_analog_x, 2), "RY:", round(right_analog_y, 2), "\n")
+		print("LX:", left_analog_x, "LY:",left_analog_y, "RX:", right_analog_x, "RY:", right_analog_y, "\n")
 
 		rightSpeed = 90 + (left_analog_y) - left_analog_x
 		leftSpeed = 90 + (left_analog_y * -1)  - left_analog_x
@@ -96,10 +94,10 @@ while running:
 		board.digital[BL].write(leftSpeed)
 		board.digital[FL].write(leftSpeed)
 
-		board.digital[leftSuck].write(90 + right_analog_y)
-		board.digital[rightSuck].write(90 + right_analog_y * -1)
+		# board.digital[leftSuck].write(90 + right_analog_y * -1)
+		# board.digital[rightSuck].write(90 + right_analog_y)
 
-	clock.tick(60)
+	clock.tick(100)
 quit()
 
 # 192.168.0.124
